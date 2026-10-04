@@ -1,128 +1,119 @@
-Bilkul bhai. **Tumhare diye hue Stock ML Predictor README ke same professional style/flow mein**, but tumhare **Income Classification System** ke according final version ye raha.
+📊 Income Classification System — Shashant Sahu
 
-**Bas `YOUR_RENDER_WEBSITE_LINK` ko apne actual Render URL se replace kar dena.** 👇
+A complete ML-powered income classification web app built with **Flask**, **scikit-learn**, and the **UCI Adult Income Dataset**.
 
-````markdown
-# 📊 Income Classification System
+The system predicts whether a person's income belongs to the `<=50K` or `>50K` category using machine learning classification models.
 
-🌐 **Live Website: https://income-classification-system.onrender.com/
 
-An intelligent web-based machine learning application that predicts whether a person's income belongs to the `<=50K` or `>50K` income category based on demographic, educational, employment, and financial information.
-
-The system uses **Logistic Regression** and **Decision Tree Classifier** models and provides model evaluation, prediction probability, and an interactive web interface built with Flask.
+🌐 **Live Website:** https://income-classification-system.onrender.com/
 
 ---
 
-## 🎯 Project Objective
-
-The objective of this project is to develop a machine learning-based **Income Classification System** that can predict a person's income category from various personal and employment-related attributes.
-
-The system focuses on:
-
-- Encoding categorical features such as education, occupation, work class, and marital status
-- Training classification models
-- Comparing model performance
-- Predicting income categories
-- Evaluating models using standard classification metrics
-- Providing predictions through a web-based interface
-
----
-
-## 🚀 Quick Start
-
-### 1. Clone the Repository
+ 🚀 Quick Start
 
 ```bash
-git clone https://github.com/ShashantSahu/Income-classification-system.git
-cd Income-classification-system
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Train the ML models
+python train_model.py
+
+# 3. Run the Flask app
+python app.py
 ````
 
-### 2. Create Virtual Environment
+---
 
-```bash
-python -m venv venv
-```
-
-### 3. Activate Virtual Environment
-
-**Windows PowerShell:**
-
-```powershell
-.\venv\Scripts\activate
-```
-
-### 4. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 5. Train the Models
-
-```bash
-python train_model.py
-```
-
-### 6. Run the Application
-
-```bash
-python app.py
-```
-
-Open the application in your browser:
+ 📦 Project Structure
 
 ```text
-http://127.0.0.1:5000
+Income-classification-system/
+├── app.py              ← Main Flask application
+├── train_model.py      ← Data preprocessing + model training
+├── requirements.txt    ← Python dependencies
+├── Procfile            ← Render deployment configuration
+├── README.md
+│
+├── model/
+│   ├── models.joblib   ← Trained ML models
+│   ├── metrics.json    ← Model evaluation metrics
+│   ├── .gitignore
+│   └── .gitkeep
+│
+├── templates/
+│   ├── base.html       ← Base layout
+│   ├── dashboard.html  ← Dashboard
+│   ├── index.html      ← Prediction page
+│   └── performance.html← Model performance
+│
+└── static/
+    └── style.css       ← Website styling
 ```
 
 ---
 
-## 🧠 Machine Learning Models
+🤖 ML Models Available
 
-The system implements two machine learning classification algorithms:
-
-### 1. Logistic Regression
-
-Logistic Regression is used for binary classification to predict whether a person's income is `<=50K` or `>50K`.
-
-### 2. Decision Tree Classifier
-
-Decision Tree Classifier uses a tree-based decision-making approach to classify individuals into the appropriate income category.
+| **Model**           | **Best For**                               |
+| ------------------- | ------------------------------------------ |
+| Logistic Regression | Simple, fast, interpretable classification |
+| Decision Tree       | Rule-based, non-linear classification      |
 
 ---
 
-## 📋 Features Used
+📋 Features Used
 
-The system uses the following input features:
+* Age
+* Education
+* Work Class
+* Occupation / Job
+* Marital Status
+* Sex
+* Hours per Week
+* Capital Gain
+* Capital Loss
 
-* **Age**
-* **Education**
-* **Work Class**
-* **Occupation / Job**
-* **Marital Status**
-* **Sex**
-* **Hours per Week**
-* **Capital Gain**
-* **Capital Loss**
-
-Categorical features are encoded before being provided to the machine learning models.
+Categorical features such as **Education, Work Class, Occupation, and Marital Status** are encoded before model training and prediction.
 
 ---
 
-## 🔄 Machine Learning Workflow
+ 📊 Model Evaluation
+
+The models are evaluated using:
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+* Confusion Matrix
+
+The application also provides a **Model Performance** section for comparing the implemented classifiers.
+
+---
+
+🔮 Prediction
+
+Enter the required personal and employment information and select a model to predict:
+
+* `<=50K`
+* `>50K`
+
+The application also displays the **prediction probability** and the **model used**.
+
+---
+
+ 🔄 ML Workflow
 
 ```text
 Dataset
    ↓
 Data Preprocessing
    ↓
-Categorical Feature Encoding
+Feature Encoding
    ↓
 Train-Test Split
    ↓
 Model Training
-   ↓
-Logistic Regression / Decision Tree
    ↓
 Model Evaluation
    ↓
@@ -131,74 +122,7 @@ Income Prediction
 
 ---
 
-## 📊 Model Evaluation
-
-The trained models are evaluated using:
-
-* **Accuracy**
-* **Precision**
-* **Recall**
-* **F1-Score**
-* **Confusion Matrix**
-
-These metrics are used to understand and compare the classification performance of the implemented models.
-
----
-
-## 🌐 Web Application
-
-The project provides an interactive Flask-based web application with the following sections:
-
-### 🏠 Dashboard
-
-Provides an overview of the Income Classification System along with dataset and model-related information.
-
-### 🔮 Income Prediction
-
-Users can enter personal, educational, employment, and financial information to predict the income category.
-
-The prediction page provides:
-
-* Predicted Income Category
-* Selected Machine Learning Model
-* Prediction Probability
-
-### 📈 Model Performance
-
-Displays the performance of the implemented machine learning models using evaluation metrics and confusion matrix results.
-
----
-
-## 📂 Project Structure
-
-```text
-Income-classification-system/
-│
-├── app.py
-├── train_model.py
-├── requirements.txt
-├── Procfile
-├── README.md
-│
-├── model/
-│   ├── models.joblib
-│   ├── metrics.json
-│   ├── .gitignore
-│   └── .gitkeep
-│
-├── templates/
-│   ├── base.html
-│   ├── dashboard.html
-│   ├── index.html
-│   └── performance.html
-│
-└── static/
-    └── style.css
-```
-
----
-
-## 🛠️ Technologies Used
+🛠️ Technologies Used
 
 * **Python**
 * **Flask**
@@ -210,42 +134,17 @@ Income-classification-system/
 
 ---
 
-## 📦 Dataset
-
-The project is based on the **UCI Adult Income Dataset**.
-
-The dataset contains demographic, educational, employment, and financial attributes that can be used to classify individuals into different income categories.
-
----
-
-## ⭐ Key Features
-
-* Machine Learning-based Income Classification
-* Logistic Regression
-* Decision Tree Classifier
-* Categorical Feature Encoding
-* Interactive Flask Web Application
-* Income Category Prediction
-* Prediction Probability
-* Model Performance Comparison
-* Accuracy, Precision, Recall and F1-Score
-* Confusion Matrix
-* Responsive Web Interface
-* Cloud Deployment Support
-
----
-
-## ☁️ Deployment
+🌐 Deployment
 
 The application is deployed using **Render**.
 
-### Build Command
+Build Command
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Start Command
+ Start Command
 
 ```bash
 gunicorn app:app
@@ -253,29 +152,13 @@ gunicorn app:app
 
 ---
 
-## 👨‍💻 Developer
+🎯 Project Objective
+
+To develop a machine learning-based system that predicts a person's income category using demographic, educational, employment, and financial attributes.
+
+---
+
+👨‍💻 Developer
 
 **Shashant Sahu**
-
 B.Tech Computer Science & Engineering
-
-**Project:** Income Classification System
-
-**Project Type:** Minor Project — Machine Learning
-
----
-
-## 📌 Academic Project
-
-This project demonstrates the complete machine learning workflow, including data preprocessing, categorical feature encoding, model training, evaluation, prediction, web application development, and deployment.
-
----
-
-## 📄 License
-
-This project is developed for academic and educational purposes.
-
-```
-
-**Ye wala final professional version hai** — GitHub README mein direct paste kar sakte ho. बस ऊपर `YOUR_RENDER_WEBSITE_LINK` को अपने actual Render URL से replace करना है.
-```
