@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}Income Classification System{% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+
+        <!-- Brand -->
+        <a class="brand" href="/">
+            <span class="brand-mark">IC</span>
+
+            <span class="brand-name">
+                <strong>Shashant Sahu</strong>
+                <small>Income Classifier</small>
+            </span>
+        </a>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+
+            <a class="{{ 'active' if request.path == '/' else '' }}"
+               href="/">
+                Dashboard
+            </a>
+
+            <a class="{{ 'active' if request.path == '/predict' else '' }}"
+               href="/predict">
+                Predict
+            </a>
+
+            <a class="{{ 'active' if request.path == '/performance' else '' }}"
+               href="/performance">
+                Model Performance
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <span>Minor Project</span>
+        <span>•</span>
+        <span>Income Classification System</span>
+        <span>•</span>
+        <span>Developed by Shashant Sahu</span>
+    </footer>
+
+</body>
+
+</html>

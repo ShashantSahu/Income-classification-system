@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Predict · Income Classifier{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div><p class="eyebrow">PREDICTION</p><h1>Predict Income Category</h1><p class="sub">Enter a person's details and the trained model will classify income as <b>&gt;50K</b> or <b>&le;50K</b>.</p></div>
+  <a class="secondary-btn" href="/">← Dashboard</a>
+</section>
+
+{% macro select(name, items, label) %}
+<label>{{ label }}
+  <select name="{{ name }}" required>
+    {% for o in items %}<option value="{{ o }}" {{ 'selected' if form.get(name) == o }}>{{ o }}</option>{% endfor %}
+  </select>
+</label>
+{% endmacro %}
+
+{% if setup_needed %}
+<div class="setup-alert"><b>Models are not trained yet.</b><span>Run <code>python train_model.py</code> once, then refresh this page.</span></div>
+{% endif %}
+
+<form method="post" class="form-card">
+  <div class="form-section-title"><span>01</span><div><h3>Personal & Employment Details</h3><p>Provide the features used by the classification model.</p></div></div>
+  <div class="form-grid">
+    <label>Age<input type="number" name="age" min="17" max="90" value="{{ form.get('age', 35) }}" required></label>
+    {{ select('education', opts.get('education', []), 'Education') }}
+    {{ select('workclass', opts.get('workclass', []), 'Work Class') }}
+    {{ select('occupation', opts.get('occupation', []), 'Occupation / Job') }}
+    {{ select('marital-status', opts.get('marital-status', []), 'Marital Status') }}
+    {{ select('sex', opts.get('sex', []), 'Sex') }}
+    <label>Hours per Week<input type="number" name="hours" min="1" max="99" value="{{ form.get('hours', 40) }}" required></label>
+    <label>Capital Gain<input type="number" name="capital-gain" min="0" value="{{ form.get('capital-gain', 0) }}"></label>
+    <label>Capital Loss<input type="number" name="capital-loss" min="0" value="{{ form.get('capital-loss', 0) }}"></label>
+  </div>
+  <div class="model-select-row">
+    {{ select('model', model_names, 'Classification Model') }}
+    <div class="model-note"><span>●</span><div><b>Two models available</b><small>Logistic Regression and Decision Tree are evaluated in this project.</small></div></div>
+  </div>
+  <button class="primary-btn submit-btn" type="submit" {% if setup_needed %}disabled{% endif %}>Predict Income Category <span>→</span></button>
+</form>
+
+{% if result %}
+<div class="result-card {{ 'high' if result.high else 'low' }}">
+  <div class="result-icon">{{ '↑' if result.high else '↓' }}</div>
+  <div><p class="eyebrow">PREDICTION RESULT</p><h2>{{ result.label }}</h2><p>Probability of income &gt;50K: <b>{{ result.prob }}%</b> · Model: <b>{{ result.model }}</b></p></div>
+  <a href="/predict" class="secondary-btn">New Prediction</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Income Classifier{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <div class="eyebrow">MACHINE LEARNING DASHBOARD</div>
+    <h1>Income Classification System</h1>
+    <p class="hero-sub">Analyze the dataset, compare classification models, and predict whether a person's income belongs to the <b>&gt;50K</b> or <b>&le;50K</b> category.</p>
+    <div class="hero-actions">
+      <a class="primary-btn" href="/predict">Start Prediction <span>→</span></a>
+      <a class="secondary-btn" href="/performance">View Model Performance</a>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="hero-chart">
+      <div class="chart-top"><span>Model accuracy</span><strong>{{ (best_accuracy * 100)|round(1) }}%</strong></div>
+      <div class="mini-bars">
+        {% for r in results %}
+        <div class="mini-row"><span>{{ r.name|replace(' Regression','') }}</span><div><i style="width: {{ (r.accuracy * 100)|round(1) }}%"></i></div><b>{{ (r.accuracy * 100)|round(1) }}%</b></div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-grid">
+  <div class="stat-card"><span class="stat-icon">▦</span><div><p>Dataset Records</p><h2>{{ meta.get('total_rows', '—') }}</h2></div></div>
+  <div class="stat-card"><span class="stat-icon">◈</span><div><p>ML Models</p><h2>{{ results|length }}</h2></div></div>
+  <div class="stat-card"><span class="stat-icon">✓</span><div><p>Best Accuracy</p><h2>{{ (best_accuracy * 100)|round(1) }}%</h2><small>{{ best_model }}</small></div></div>
+  <div class="stat-card"><span class="stat-icon">↗</span><div><p>Income &gt;50K</p><h2>{{ meta.get('high_income_pct', '—') }}%</h2><small>Dataset distribution</small></div></div>
+</section>
+
+<section class="dashboard-grid">
+  <div class="panel distribution-panel">
+    <div class="panel-heading"><div><p class="eyebrow">DATASET OVERVIEW</p><h2>Income Distribution</h2></div><span class="pill">UCI Adult</span></div>
+    {% set high = meta.get('high_income_pct', 0)|float %}
+    {% set low = 100 - high %}
+    <div class="donut-wrap">
+      <div class="donut" style="--p: {{ high }}"><div><strong>{{ high|round(1) }}%</strong><span>&gt;50K</span></div></div>
+      <div class="legend">
+        <div><span class="dot low-dot"></span><div><b>&le;50K</b><small>{{ low|round(1) }}% of records</small></div></div>
+        <div><span class="dot high-dot"></span><div><b>&gt;50K</b><small>{{ high|round(1) }}% of records</small></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel workflow-panel">
+    <div class="panel-heading"><div><p class="eyebrow">PROJECT PIPELINE</p><h2>How it works</h2></div></div>
+    <div class="workflow">
+      <div><span>01</span><b>Input Data</b><small>Person's demographic & work details</small></div>
+      <i>→</i>
+      <div><span>02</span><b>Preprocessing</b><small>Encoding & feature preparation</small></div>
+      <i>→</i>
+      <div><span>03</span><b>ML Model</b><small>Logistic Regression / Decision Tree</small></div>
+      <i>→</i>
+      <div><span>04</span><b>Prediction</b><small>Income category output</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel performance-panel">
+  <div class="panel-heading"><div><p class="eyebrow">MODEL EVALUATION</p><h2>Model Performance</h2></div><a href="/performance" class="text-link">Detailed evaluation →</a></div>
+  {% if results %}
+  <div class="performance-list">
+    {% for r in results %}
+    <div class="performance-row">
+      <div class="model-name"><span class="model-badge">{{ loop.index }}</span><div><b>{{ r.name }}</b><small>Classification model</small></div></div>
+      <div class="metric"><span>Accuracy</span><strong>{{ (r.accuracy * 100)|round(1) }}%</strong><div class="progress"><i style="width:{{ r.accuracy * 100 }}%"></i></div></div>
+      <div class="metric compact"><span>Precision</span><strong>{{ (r.precision * 100)|round(1) }}%</strong></div>
+      <div class="metric compact"><span>Recall</span><strong>{{ (r.recall * 100)|round(1) }}%</strong></div>
+      <div class="metric compact"><span>F1 Score</span><strong>{{ (r.f1 * 100)|round(1) }}%</strong></div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">Train the models with <code>python train_model.py</code> to populate the dashboard.</div>
+  {% endif %}
+</section>
+
+<section class="quick-grid">
+  <a href="/predict" class="quick-card"><span>⌁</span><div><b>Make a Prediction</b><small>Enter a person's details and get an income category.</small></div><strong>→</strong></a>
+  <a href="/performance" class="quick-card"><span>◎</span><div><b>Explore Evaluation</b><small>View accuracy, precision, recall, F1 and confusion matrices.</small></div><strong>→</strong></a>
+</section>
+{% endblock %}

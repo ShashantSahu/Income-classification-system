@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Model Performance · Income Classifier{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div><p class="eyebrow">MODEL EVALUATION</p><h1>Model Performance</h1><p class="sub">Evaluation of Logistic Regression and Decision Tree on the cleaned UCI Adult dataset.</p></div>
+  <a class="secondary-btn" href="/">← Dashboard</a>
+</section>
+
+{% if meta.results %}
+<div class="performance-hero">
+  <div><span>Dataset records</span><strong>{{ meta.total_rows }}</strong></div>
+  <div><span>Income &gt;50K</span><strong>{{ meta.high_income_pct }}%</strong></div>
+  <div><span>Models evaluated</span><strong>{{ meta.results|length }}</strong></div>
+</div>
+<div class="panel performance-table-panel">
+  <div class="panel-heading"><div><p class="eyebrow">METRICS</p><h2>Classification Results</h2></div></div>
+  <div class="table-scroll"><table class="modern-table">
+    <thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1 Score</th></tr></thead>
+    <tbody>{% for r in meta.results %}<tr><td><b>{{ r.name }}</b></td><td><strong>{{ (r.accuracy * 100)|round(1) }}%</strong></td><td>{{ (r.precision * 100)|round(1) }}%</td><td>{{ (r.recall * 100)|round(1) }}%</td><td>{{ (r.f1 * 100)|round(1) }}%</td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+<div class="matrix-grid">
+{% for r in meta.results %}
+<div class="panel"><div class="panel-heading"><div><p class="eyebrow">CONFUSION MATRIX</p><h2>{{ r.name }}</h2></div></div>
+<table class="matrix"><tr><th></th><th>Pred ≤50K</th><th>Pred &gt;50K</th></tr><tr><th>Actual ≤50K</th><td class="tn">{{ r.cm[0][0] }}</td><td class="fp">{{ r.cm[0][1] }}</td></tr><tr><th>Actual &gt;50K</th><td class="fn">{{ r.cm[1][0] }}</td><td class="tp">{{ r.cm[1][1] }}</td></tr></table>
+</div>{% endfor %}
+</div>
+{% else %}<div class="setup-alert"><b>No evaluation data found.</b><span>Run <code>python train_model.py</code> first.</span></div>{% endif %}
+{% endblock %}
